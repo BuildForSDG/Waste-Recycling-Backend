@@ -1,11 +1,28 @@
-import app from './app';
+import mongoose from 'mongoose';
+import { APP_PORT, MONGO_URI, MONGO_OPTIONS } from './config';
+import createApp from './app';
 
-const startApp = async () => {
-  const header = document.querySelector('[data-app-name]');
-  if (!header) return;
+(async () => {
+  await mongoose.connect(MONGO_URI, MONGO_OPTIONS);
 
-  const programName = await app();
-  header.textContent = programName;
-};
+  const normalizePort = (val) => {
+    const port = parseInt(val, 10);
 
-document.addEventListener('DOMContentLoaded', startApp);
+    if (port === '') {
+      return val;
+    }
+    if (port >= 0) {
+      return port;
+    }
+    return false;
+  };
+
+  const port = normalizePort(process.env.PORT || APP_PORT);
+
+  const app = createApp();
+
+  app.set('port', port);
+
+  // eslint-disable-next-line no-console
+  app.listen(port, () => console.log(`http://localhost:${port}`));
+})();

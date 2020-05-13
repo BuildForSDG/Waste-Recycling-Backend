@@ -1,13 +1,6 @@
 /* eslint-disable no-underscore-dangle */
-import mongoose from 'mongoose';
-import { MONGO_URI, MONGO_OPTIONS } from '../src/config';
 import { User } from '../src/models';
-
-const userData = {
-  email: 'team04@buidsdg.com',
-  name: 'waste recycling',
-  password: 'Problem1'
-};
+import { mongoseConnect, mongoseDisconnect, userData } from './genaralTestConfi';
 
 const userDataWithInvalidField = {
   email: 'team04@buidsdg.com',
@@ -20,16 +13,11 @@ describe('User Model Test', () => {
   // It's just so easy to connect to the MongoDB Memory Server
   // By using mongoose.connect
   beforeEach(async () => {
-    await mongoose.connect(MONGO_URI, MONGO_OPTIONS, (err) => {
-      if (err) {
-        process.exit(1);
-      }
-    });
-    await User.deleteMany({ email: 'team04@buidsdg.com' });
+    await mongoseConnect(User);
   });
 
   afterEach(async () => {
-    await mongoose.connection.close();
+    await mongoseDisconnect();
   });
 
   it('create & save user successfully', async () => {

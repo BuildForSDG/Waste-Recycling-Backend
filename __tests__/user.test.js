@@ -1,7 +1,6 @@
-import mongoose from 'mongoose';
 import createApp from '../src/app';
-import { MONGO_URI, MONGO_OPTIONS } from '../src/config';
 import { User } from '../src/models';
+import { mongoseConnect, mongoseDisconnect, userData } from './genaralTestConfi';
 
 const supertest = require('supertest'); // Link to your server file
 
@@ -10,24 +9,12 @@ const app = createApp();
 const request = supertest(app);
 
 describe('Test the User Routes', () => {
-  const userData = {
-    email: 'team04@buidsdg.com',
-    name: 'waste recycling',
-    password: 'ProblemStatement2',
-    passwordConfirmation: 'ProblemStatement2'
-  };
-
   beforeEach(async () => {
-    await mongoose.connect(MONGO_URI, MONGO_OPTIONS, (err) => {
-      if (err) {
-        process.exit(1);
-      }
-    });
-    await User.deleteMany({ email: 'team04@buidsdg.com' });
+    await mongoseConnect(User);
   });
 
   afterEach(async () => {
-    await mongoose.connection.close();
+    await mongoseDisconnect();
   });
 
 

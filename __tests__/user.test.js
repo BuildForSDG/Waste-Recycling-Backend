@@ -26,4 +26,17 @@ describe('Test the User Routes', () => {
 
     expect(user.email).toBe('team04@buidsdg.com');
   });
+
+  test('It should POST login User ', async () => {
+    const response = await request.post('/api/v1/auth/login').send({
+      email: 'lamido@gmail.com',
+      password: 'Mypassword1234'
+    });
+
+    expect(response.statusCode).toBe(200);
+
+    const user = await User.findOne({ email: 'lamido@gmail.com' });
+
+    expect(user.email).toBe('lamido@gmail.com');
+  });
 });

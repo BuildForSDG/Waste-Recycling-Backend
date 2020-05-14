@@ -1,8 +1,8 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable import/prefer-default-export */
-import { createUserSchema, validate } from '../validation';
+import { createUserSchema, loginSchema, validate } from '../validation';
 import { User } from '../models';
-import { BadRequest } from '../errors';
+import { BadRequest, Unauthorize } from '../errors';
 import { getToken } from '../config';
 
 const createUser = async (req, res) => {
@@ -34,5 +34,27 @@ const createUser = async (req, res) => {
   });
 };
 
+const userlogIn = async (req, res) => {
+  await validate(loginSchema, req.body);
 
-export { createUser };
+  const { email, password } = req.body;
+
+  const user = await User.findOne({ email });
+
+  if (!user || !user.matchesPassword(password)) {
+    throw new Unauthorize('Incorrect email or password');
+  }
+
+  const token = await getToken(user._id);
+
+  res.json({
+    status: 'success',
+    data: {
+      message: 'User login succesful',
+      token,
+      user
+    }
+  });
+};
+
+export { createUser, userlogIn as signIn };

@@ -17,15 +17,14 @@ const password = Joi.string()
   .required();
 
 const passwordConfirmation = Joi.valid(Joi.ref('password')).required();
+const bio = Joi.string().min(2).max(200);
+const address = Joi.string().min(2).max(200);
 
-export const createUserSchema = Joi.object({
+export const createOrgSchema = Joi.object({
   email,
   name,
   password,
-  passwordConfirmation
-});
-
-export const loginSchema = Joi.object({
-  email,
-  password
+  passwordConfirmation,
+  bio,
+  address
 });

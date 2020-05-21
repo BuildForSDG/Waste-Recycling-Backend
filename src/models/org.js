@@ -3,43 +3,34 @@ import { Schema, model } from 'mongoose';
 import { hash, compare } from 'bcryptjs';
 import { BCRYPT_WORK_FACTOR } from '../config';
 
-const userSchema = new Schema(
+const orgSchema = new Schema(
   {
     email: String,
     name: String,
     password: String,
-    gender: String,
-    country: String,
-    state: String,
-    localGov: String,
-    cityTown: String,
-    imageUrl: String
+    bio: String,
+    address: String
   },
   {
     timestamps: true
   }
 );
 
-userSchema.pre('save', async function () {
+orgSchema.pre('save', async function () {
   if (this.isModified('password')) {
     this.password = await hash(this.password, BCRYPT_WORK_FACTOR);
   }
 });
 
-userSchema.methods.matchesPassword = function (password) {
+orgSchema.methods.matchesPassword = function (password) {
   return compare(password, this.password);
 };
 
-userSchema.set('toJSON', {
+orgSchema.set('toJSON', {
   // eslint-disable-next-line no-unused-vars
-  transform: (doc, {
-    __v, _id, password, ...rest
-  }) => {
-    rest.id = _id;
-    return rest;
-  }
+  transform: (doc, { __v, password, ...rest }, options) => rest
 });
 
-const User = model('User', userSchema);
+const Org = model('Org', orgSchema);
 
-export default User;
+export default Org;

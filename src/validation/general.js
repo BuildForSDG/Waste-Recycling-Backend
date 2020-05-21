@@ -27,7 +27,7 @@ export const passwordConfirmation = Joi.valid(Joi.ref('password')).required();
 
 export const addr = Joi.string()
   .min(2)
-  .max(50);
+  .max(200);
 
 export const gender = Joi.string()
   .min(4)
@@ -42,3 +42,6 @@ export const cityTown = addr;
 export const imageUrl = Joi.string()
   .min(2)
   .max(255);
+
+export const bio = addr;
+export const address = addr;

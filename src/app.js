@@ -1,6 +1,6 @@
 import express from 'express';
 import { notFound, serverError, headers } from './middleware';
-import { user } from './routes';
+import { user, org } from './routes';
 
 const createApp = () => {
   const app = express();
@@ -10,6 +10,7 @@ const createApp = () => {
   app.use(express.json());
 
   app.use('/api/v1/auth', user);
+  app.use('/api/v1/auth', org);
 
   app.use(notFound);
 

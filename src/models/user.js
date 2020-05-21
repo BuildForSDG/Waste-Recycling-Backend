@@ -8,7 +8,13 @@ const userSchema = new Schema(
   {
     email: String,
     name: String,
-    password: String
+    password: String,
+    gender: String,
+    country: String,
+    state: String,
+    localGov: String,
+    cityTown: String,
+    imageUrl: String
   },
   {
     timestamps: true
@@ -27,7 +33,12 @@ userSchema.methods.matchesPassword = function (password) {
 
 userSchema.set('toJSON', {
   // eslint-disable-next-line no-unused-vars
-  transform: (doc, { __v, password, ...rest }, options) => rest
+  transform: (doc, {
+    __v, _id, password, ...rest
+  }) => {
+    rest.id = _id;
+    return rest;
+  }
 });
 
 

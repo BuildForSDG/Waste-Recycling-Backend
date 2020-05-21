@@ -5,7 +5,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 
-const {
+export const {
   RANDOM_TOKEN = 'vWLU/2D46fnUG0Ol1ozfQQ=='
 
 } = process.env;

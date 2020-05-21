@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import createApp from '../src/app';
 import { User } from '../src/models';
 import { mongoseConnect, mongoseDisconnect, userData } from './genaralTestConfi';
@@ -38,5 +39,17 @@ describe('Test the User Routes', () => {
     const user = await User.findOne({ email: 'lamido@gmail.com' });
 
     expect(user.email).toBe('lamido@gmail.com');
+  });
+
+  test('It should fail PATCH Unauthorize User ', async () => {
+    const validUser = new User(userData);
+
+    const savedUser = await validUser.save();
+
+    const response = await request.patch(`/api/v1/auth/users/${savedUser._id}`).send({
+      country: 'nigeria'
+    });
+
+    expect(response.statusCode).toBe(401);
   });
 });

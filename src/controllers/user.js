@@ -1,9 +1,11 @@
 /* eslint-disable no-underscore-dangle */
-/* eslint-disable import/prefer-default-export */
-import { createUserSchema, loginSchema, validate } from '../validation';
+import {
+  createUserSchema, loginSchema, updateSchema, validate
+} from '../validation';
 import { User } from '../models';
 import { BadRequest, Unauthorize } from '../errors';
 import { getToken } from '../config';
+import { processImageToUrl } from '../utils';
 
 const createUser = async (req, res) => {
   await validate(createUserSchema, req.body);
@@ -41,11 +43,11 @@ const userlogIn = async (req, res) => {
 
   const user = await User.findOne({ email });
 
-  if (!user || !user.matchesPassword(password)) {
+  if (!user || !await user.matchesPassword(password)) {
     throw new Unauthorize('Incorrect email or password');
   }
 
-  const token = await getToken(user._id);
+  const token = await getToken(user.id);
 
   res.json({
     status: 'success',
@@ -57,4 +59,27 @@ const userlogIn = async (req, res) => {
   });
 };
 
-export { createUser, userlogIn as signIn };
+const userProfileUpdate = async (req, res) => {
+  await validate(updateSchema, req.body);
+
+  const { id } = req.params;
+
+  let url;
+
+  if (req.file) {
+    url = await processImageToUrl(req);
+  }
+
+  const imageUrl = url;
+
+  await User.findByIdAndUpdate(id, { ...req.body, imageUrl }, { omitUndefined: true });
+
+  res.json({
+    status: 'success',
+    data: {
+      message: 'Profile Updated succesful'
+    }
+  });
+};
+
+export { createUser, userlogIn as signIn, userProfileUpdate as profileUpdate };

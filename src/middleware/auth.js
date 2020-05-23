@@ -17,7 +17,6 @@ export const authAccount = async (req, res, next) => {
     return next(new Unauthorize('You must logged in'));
   }
 
-
   const { userId } = await decodeToken(req, next);
 
   if (id !== userId) {

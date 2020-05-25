@@ -1,5 +1,8 @@
 /* eslint-disable import/prefer-default-export */
+
 import Joi from '@hapi/joi';
+// import { createOrgSchema, loginSchema, validate } from '../validation';
+
 /* prettier-ignore */
 import {
   email, name, password, passwordConfirmation, bio, address, country, state, cityTown, imageUrl
@@ -12,12 +15,12 @@ export const createOrgSchema = Joi.object({
   passwordConfirmation
 });
 
-export const loginSchema = Joi.object({
+export const loginOrgSchema = Joi.object({
   email,
   password
 });
 
-export const updateSchema = Joi.object({
+export const updateOrgSchema = Joi.object({
   bio,
   address,
   country,

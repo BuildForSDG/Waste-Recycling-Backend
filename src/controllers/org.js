@@ -2,7 +2,7 @@
 /* eslint-disable import/prefer-default-export */
 /* prettier-ignore */
 import {
-  createOrgSchema, loginSchema, updateSchema, validate
+  createOrgSchema, loginOrgSchema, updateOrgSchema, validate
 } from '../validation';
 import { Org } from '../models';
 import { BadRequest, Unauthorize } from '../errors';
@@ -39,7 +39,7 @@ const createOrg = async (req, res) => {
 };
 
 const orglogIn = async (req, res) => {
-  await validate(loginSchema, req.body);
+  await validate(loginOrgSchema, req.body);
 
   const { email, password } = req.body;
 
@@ -62,7 +62,7 @@ const orglogIn = async (req, res) => {
 };
 
 const orgProfileUpdate = async (req, res) => {
-  await validate(updateSchema, req.body);
+  await validate(updateOrgSchema, req.body);
 
   const { id } = req.params;
 
@@ -84,4 +84,4 @@ const orgProfileUpdate = async (req, res) => {
   });
 };
 
-export { createOrg, orglogIn as signIn, orgProfileUpdate as profileUpdate };
+export { createOrg, orglogIn, orgProfileUpdate };

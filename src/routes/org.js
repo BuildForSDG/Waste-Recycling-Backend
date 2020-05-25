@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { createOrg, signIn, profileUpdate } from '../controllers';
+import { createOrg, orglogIn, orgProfileUpdate } from '../controllers';
 /* prettier-ignore */
 import {
   catchAsync, guest, authAccount, cloudinary, multerUploadSingle
@@ -8,8 +8,8 @@ import {
 const router = Router();
 
 router.post('/create-org', guest, catchAsync(createOrg));
-router.post('/login', guest, catchAsync(signIn));
+router.post('/login-org', guest, catchAsync(orglogIn));
 
-router.patch('/org/:id', authAccount, cloudinary, multerUploadSingle, catchAsync(profileUpdate));
+router.patch('/org/:id', authAccount, cloudinary, multerUploadSingle, catchAsync(orgProfileUpdate));
 
 export default router;

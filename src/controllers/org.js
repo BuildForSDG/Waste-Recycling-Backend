@@ -43,20 +43,20 @@ const orglogIn = async (req, res) => {
 
   const { email, password } = req.body;
 
-  const user = await Org.findOne({ email });
+  const org = await Org.findOne({ email });
 
-  if (!user || !(await user.matchesPassword(password))) {
+  if (!org || !(await org.matchesPassword(password))) {
     throw new Unauthorize('Incorrect email or password');
   }
 
-  const token = await getToken(user.id);
+  const token = await getToken(org.id);
 
   res.json({
     status: 'success',
     data: {
-      message: 'User login successful',
+      message: 'Organization login successful',
       token,
-      user
+      org
     }
   });
 };

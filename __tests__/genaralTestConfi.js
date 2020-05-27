@@ -29,3 +29,36 @@ export const orgData = {
   password: 'ProblemStatement2',
   passwordConfirmation: 'ProblemStatement2'
 };
+
+export const failUnauthorize = async (response) => {
+  const { body } = response;
+
+  expect(body.status).toBe('error');
+
+  expect(body.message).toBe('You must logged in');
+};
+
+export const passAuthorizeCRUD = async (response, model) => {
+  const { body } = response;
+
+  expect(response.statusCode).toBe(200);
+  expect(body).toHaveProperty('status', 'success');
+  expect(body).toHaveProperty('data.message');
+  // expect(body).toHaveProperty('data.token');
+
+
+  if (model === 'user') {
+    expect(body).toHaveProperty('data.user');
+  }
+  if (model === 'org') {
+    expect(body).toHaveProperty('data.org');
+  }
+};
+
+export const saveModel = async (Model, data) => {
+  const validUser = new Model(data);
+
+  const savedModel = await validUser.save();
+
+  return savedModel;
+};

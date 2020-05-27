@@ -1,6 +1,7 @@
-/* eslint-disable no-underscore-dangle */
 import { User } from '../src/models';
-import { mongoseConnect, mongoseDisconnect, userData } from './genaralTestConfi';
+import {
+  mongoseConnect, mongoseDisconnect, userData, saveModel
+} from './genaralTestConfi';
 
 const userDataWithInvalidField = {
   email: 'team04@buidsdg.com',
@@ -21,18 +22,14 @@ describe('User Model Test', () => {
   });
 
   it('create & save user successfully', async () => {
-    const validUser = new User(userData);
-
-    const savedUser = await validUser.save();
+    const savedUser = await saveModel(User, userData);
 
     // Object Id should be defined when successfully saved to MongoDB.
-    expect(savedUser._id).toBeDefined();
+    expect(savedUser.id).toBeDefined();
 
     expect(savedUser.name).toBe(userData.name);
 
     expect(savedUser.email).toBe(userData.email);
-
-    expect(savedUser.loginUsing).toBe(userData.loginUsing);
   });
 
   // Test Schema is working!!!
@@ -42,7 +39,7 @@ describe('User Model Test', () => {
 
     const savedUserWithInvalidField = await userWithInvalidField.save();
 
-    expect(savedUserWithInvalidField._id).toBeDefined();
+    expect(savedUserWithInvalidField.id).toBeDefined();
 
     expect(savedUserWithInvalidField.secret).toBeUndefined();
   });

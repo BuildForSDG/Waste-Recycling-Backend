@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 import {
   createUserSchema, loginSchema, updateSchema, validate
 } from '../validation';
@@ -24,7 +23,7 @@ const createUser = async (req, res) => {
     password
   });
 
-  const token = await getToken(user._id);
+  const token = await getToken(user.id);
 
   res.json({
     status: 'success',
@@ -64,6 +63,12 @@ const userProfileUpdate = async (req, res) => {
 
   const { id } = req.params;
 
+  const found = await User.findById(id);
+
+  if (!found) {
+    throw new BadRequest('Invalid id');
+  }
+
   let url;
 
   if (req.file) {
@@ -82,4 +87,25 @@ const userProfileUpdate = async (req, res) => {
   });
 };
 
-export { createUser, userlogIn as signIn, userProfileUpdate as profileUpdate };
+const deleteUser = async (req, res) => {
+  const { id } = req.params;
+
+  const found = await User.findById(id);
+
+  if (!found) {
+    throw new BadRequest('Invalid id');
+  }
+  await User.findByIdAndDelete(id);
+
+  res.json({
+    status: 'success',
+    data: {
+      message: 'User Deleted succesfull'
+    }
+  });
+};
+
+
+export {
+  createUser, userlogIn as signIn, userProfileUpdate as profileUpdate, deleteUser
+};

@@ -9,7 +9,12 @@ const orgSchema = new Schema(
     name: String,
     password: String,
     bio: String,
-    address: String
+    address: String,
+    country: String,
+    state: String,
+    localGov: String,
+    cityTown: String,
+    imageUrl: String
   },
   {
     timestamps: true

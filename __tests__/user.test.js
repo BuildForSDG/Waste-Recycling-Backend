@@ -18,7 +18,6 @@ describe('Test the User Routes', () => {
     await mongoseDisconnect();
   });
 
-
   test('It should POST New User ', async () => {
     const response = await request.post('/api/v1/auth/create-user').send(userData);
     expect(response.status).toBe(200);

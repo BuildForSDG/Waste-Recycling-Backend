@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { createUser, signIn, profileUpdate } from '../controllers';
+/* prettier-ignore */
 import {
   catchAsync, guest, authAccount, cloudinary, multerUploadSingle
 } from '../middleware';

@@ -86,26 +86,10 @@ describe('Test the User Routes', () => {
     await passAuthorizeCRUD(response);
   });
 
-  test('It should fail Get Unauthorize User ', async () => {
+  test('It should Get User ', async () => {
     const savedUser = await saveModel(User, testData);
 
     const response = await request.get(`/api/v1/auth/users/${savedUser.id}`);
-
-    await failUnauthorize(response);
-  });
-
-  test('It should pass Get authorize User ', async () => {
-    const savedUser = await saveModel(User, testData);
-
-    const user = await request.post('/api/v1/auth/login').send({
-      email: testData.email,
-      password: testData.password
-    });
-
-    const { token } = user.body.data;
-
-    const response = await request.get(`/api/v1/auth/users/${savedUser.id}`)
-      .set({ Authorization: `Bearer ${token}` });
 
     await passAuthorizeCRUD(response, 'user');
   });

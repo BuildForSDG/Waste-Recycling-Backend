@@ -105,7 +105,25 @@ const deleteUser = async (req, res) => {
   });
 };
 
+const viewProfile = async (req, res) => {
+  const { id } = req.params;
+
+  const found = await User.findById(id);
+
+  if (!found) {
+    throw new BadRequest('Invalid id');
+  }
+
+  res.json({
+    status: 'success',
+    data: {
+      message: 'View Use succesfull',
+      user: found
+    }
+  });
+};
+
 
 export {
-  createUser, userlogIn as signIn, userProfileUpdate as profileUpdate, deleteUser
+  createUser, userlogIn as signIn, userProfileUpdate as profileUpdate, deleteUser, viewProfile
 };

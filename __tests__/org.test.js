@@ -86,26 +86,10 @@ describe('Test the Org Routes', () => {
     await passAuthorizeCRUD(response);
   });
 
-  test('It should fail Get Unauthorize Org ', async () => {
+  test('It should Get Org ', async () => {
     const savedOrg = await saveModel(Org, testData);
 
     const response = await request.get(`/api/v1/auth/org/${savedOrg.id}`);
-
-    await failUnauthorize(response);
-  });
-
-  test('It should pass Get authorize Org ', async () => {
-    const savedOrg = await saveModel(Org, testData);
-
-    const org = await request.post('/api/v1/auth/login-org').send({
-      email: testData.email,
-      password: testData.password
-    });
-
-    const { token } = org.body.data;
-
-    const response = await request.get(`/api/v1/auth/org/${savedOrg.id}`)
-      .set({ Authorization: `Bearer ${token}` });
 
     await passAuthorizeCRUD(response, 'org');
   });

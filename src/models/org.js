@@ -32,8 +32,12 @@ orgSchema.methods.matchesPassword = function (password) {
 };
 
 orgSchema.set('toJSON', {
-  // eslint-disable-next-line no-unused-vars
-  transform: (doc, { __v, password, ...rest }, options) => rest
+  transform: (doc, {
+    __v, _id, password, ...rest
+  }) => {
+    rest.id = _id;
+    return rest;
+  }
 });
 
 const Org = model('Org', orgSchema);

@@ -31,8 +31,6 @@ userSchema.methods.matchesPassword = function (password) {
 };
 
 userSchema.set('toJSON', {
-  // eslint-disable-next-line no-unused-vars
-  /* prettier-ignore */
   transform: (doc, {
     __v, _id, password, ...rest
   }) => {

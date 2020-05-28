@@ -1,6 +1,3 @@
-/* eslint-disable no-underscore-dangle */
-/* eslint-disable import/prefer-default-export */
-/* prettier-ignore */
 import {
   createOrgSchema, loginOrgSchema, updateOrgSchema, validate
 } from '../validation';
@@ -26,7 +23,7 @@ const createOrg = async (req, res) => {
     password
   });
 
-  const token = await getToken(org._id);
+  const token = await getToken(org.id);
 
   res.json({
     status: 'success',

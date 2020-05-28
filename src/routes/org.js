@@ -1,6 +1,5 @@
 import { Router } from 'express';
 import { createOrg, orglogIn, orgProfileUpdate } from '../controllers';
-/* prettier-ignore */
 import {
   catchAsync, guest, authAccount, cloudinary, multerUploadSingle
 } from '../middleware';

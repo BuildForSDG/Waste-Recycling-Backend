@@ -1,6 +1,4 @@
-/* eslint-disable import/prefer-default-export */
 import Joi from '@hapi/joi';
-/* prettier-ignore */
 import {
   email, name, password, passwordConfirmation, gender, country, state, cityTown, imageUrl
 } from './general';

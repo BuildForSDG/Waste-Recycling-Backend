@@ -1,6 +1,6 @@
 import Joi from '@hapi/joi';
 import { BCRYPT_MAX_BYTES } from '../config';
-/* prettier-ignore */
+
 export const email = Joi.string().email().min(10).max(254)
   .lowercase()
   .trim()

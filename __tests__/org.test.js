@@ -1,6 +1,8 @@
-/* eslint-disable no-underscore-dangle */ import createApp from '../src/app';
+import createApp from '../src/app';
 import { Org } from '../src/models';
-import { mongoseConnect, mongoseDisconnect, orgData } from './genaralTestConfi';
+import {
+  mongoseConnect, mongoseDisconnect, testData, failUnauthorize, passAuthorizeCRUD, saveModel
+} from './genaralTestConfi';
 
 const supertest = require('supertest'); // Link to your server file
 
@@ -18,35 +20,93 @@ describe('Test the Org Routes', () => {
   });
 
   test('It should POST New Organization ', async () => {
-    const response = await request.post('/api/v1/auth/create-org').send(orgData);
-    expect(response.status).toBe(200);
-
-    const org = await Org.findOne({ email: 'team04@buidsdg.com' });
-
-    expect(org.email).toBe('team04@buidsdg.com');
+    const response = await request.post('/api/v1/auth/create-org').send(testData);
+    await passAuthorizeCRUD(response);
   });
+
   test('It should POST login Organization ', async () => {
+    await saveModel(Org, testData);
+
     const response = await request.post('/api/v1/auth/login-org').send({
-      email: 'lamido@gmail.com',
-      password: 'Mypassword1234'
+      email: testData.email,
+      password: testData.password
     });
 
-    expect(response.statusCode).toBe(200);
-
-    const org = await Org.findOne({ email: 'lamido@gmail.com' });
-
-    expect(org.email).toBe('lamido@gmail.com');
+    await passAuthorizeCRUD(response);
   });
 
   test('It should fail PATCH Unauthorize Org ', async () => {
-    const validOrg = new Org(orgData);
+    const savedOrg = await saveModel(Org, testData);
 
-    const savedOrg = await validOrg.save();
-
-    const response = await request.patch(`/api/v1/auth/users/${savedOrg._id}`).send({
+    const response = await request.patch(`/api/v1/auth/org/${savedOrg.id}`).send({
       country: 'nigeria'
     });
 
-    expect(response.statusCode).toBe(401);
+    await failUnauthorize(response);
+  });
+
+  test('It should pass PATCH authorize Org ', async () => {
+    const savedOrg = await saveModel(Org, testData);
+
+    const org = await request.post('/api/v1/auth/login-org').send({
+      email: testData.email,
+      password: testData.password
+    });
+
+    const { token } = org.body.data;
+
+    const response = await request.patch(`/api/v1/auth/org/${savedOrg.id}`).send({
+      country: 'nigeria'
+    }).set({ Authorization: `Bearer ${token}` });
+
+    await passAuthorizeCRUD(response);
+  });
+
+  test('It should fail Delete Unauthorize Org ', async () => {
+    const savedOrg = await saveModel(Org, testData);
+
+    const response = await request.patch(`/api/v1/auth/org/${savedOrg.id}`);
+
+    await failUnauthorize(response);
+  });
+
+  test('It should pass Delete authorize Org ', async () => {
+    const savedOrg = await saveModel(Org, testData);
+
+    const org = await request.post('/api/v1/auth/login-org').send({
+      email: testData.email,
+      password: testData.password
+    });
+
+
+    const { token } = org.body.data;
+
+    const response = await request.delete(`/api/v1/auth/org/${savedOrg.id}`).set({ Authorization: `Bearer ${token}` });
+
+    await passAuthorizeCRUD(response);
+  });
+
+  test('It should fail Get Unauthorize Org ', async () => {
+    const savedOrg = await saveModel(Org, testData);
+
+    const response = await request.get(`/api/v1/auth/org/${savedOrg.id}`);
+
+    await failUnauthorize(response);
+  });
+
+  test('It should pass Get authorize Org ', async () => {
+    const savedOrg = await saveModel(Org, testData);
+
+    const org = await request.post('/api/v1/auth/login-org').send({
+      email: testData.email,
+      password: testData.password
+    });
+
+    const { token } = org.body.data;
+
+    const response = await request.get(`/api/v1/auth/org/${savedOrg.id}`)
+      .set({ Authorization: `Bearer ${token}` });
+
+    await passAuthorizeCRUD(response, 'org');
   });
 });

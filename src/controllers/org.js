@@ -1,9 +1,10 @@
-/* eslint-disable no-underscore-dangle */
-/* eslint-disable import/prefer-default-export */
-import { createOrgSchema, validate } from '../validation';
+import {
+  createOrgSchema, loginOrgSchema, updateOrgSchema, validate
+} from '../validation';
 import { Org } from '../models';
-import { BadRequest } from '../errors';
+import { BadRequest, Unauthorize } from '../errors';
 import { getToken } from '../config';
+import { processImageToUrl } from '../utils';
 
 const createOrg = async (req, res) => {
   await validate(createOrgSchema, req.body);
@@ -22,16 +23,62 @@ const createOrg = async (req, res) => {
     password
   });
 
-  const token = await getToken(org._id);
+  const token = await getToken(org.id);
 
   res.json({
     status: 'success',
     data: {
-      message: 'organization created succesful',
+      message: 'organization created succesfully',
       token,
       org
     }
   });
 };
 
-export { createOrg };
+const orglogIn = async (req, res) => {
+  await validate(loginOrgSchema, req.body);
+
+  const { email, password } = req.body;
+
+  const org = await Org.findOne({ email });
+
+  if (!org || !(await org.matchesPassword(password))) {
+    throw new Unauthorize('Incorrect email or password');
+  }
+
+  const token = await getToken(org.id);
+
+  res.json({
+    status: 'success',
+    data: {
+      message: 'Organization login successful',
+      token,
+      org
+    }
+  });
+};
+
+const orgProfileUpdate = async (req, res) => {
+  await validate(updateOrgSchema, req.body);
+
+  const { id } = req.params;
+
+  let url;
+
+  if (req.file) {
+    url = await processImageToUrl(req);
+  }
+
+  const imageUrl = url;
+
+  await Org.findByIdAndUpdate(id, { ...req.body, imageUrl }, { omitUndefined: true });
+
+  res.json({
+    status: 'success',
+    data: {
+      message: 'Profile Updated succesfully'
+    }
+  });
+};
+
+export { createOrg, orglogIn, orgProfileUpdate };

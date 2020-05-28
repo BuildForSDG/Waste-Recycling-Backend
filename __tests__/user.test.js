@@ -1,7 +1,7 @@
 import createApp from '../src/app';
 import { User } from '../src/models';
 import {
-  mongoseConnect, mongoseDisconnect, userData, failUnauthorize, passAuthorizeCRUD, saveModel
+  mongoseConnect, mongoseDisconnect, testData, failUnauthorize, passAuthorizeCRUD, saveModel
 } from './genaralTestConfi';
 
 const supertest = require('supertest'); // Link to your server file
@@ -19,18 +19,17 @@ describe('Test the User Routes', () => {
     await mongoseDisconnect();
   });
 
-
   test('It should POST New User ', async () => {
-    const response = await request.post('/api/v1/auth/create-user').send(userData);
+    const response = await request.post('/api/v1/auth/create-user').send(testData);
     await passAuthorizeCRUD(response);
   });
 
   test('It should POST login User ', async () => {
-    await saveModel(User, userData);
+    await saveModel(User, testData);
 
     const response = await request.post('/api/v1/auth/login').send({
-      email: userData.email,
-      password: userData.password
+      email: testData.email,
+      password: testData.password
     });
 
 
@@ -38,7 +37,7 @@ describe('Test the User Routes', () => {
   });
 
   test('It should fail PATCH Unauthorize User ', async () => {
-    const savedUser = await saveModel(User, userData);
+    const savedUser = await saveModel(User, testData);
 
     const response = await request.patch(`/api/v1/auth/users/${savedUser.id}`).send({
       country: 'nigeria'
@@ -48,7 +47,7 @@ describe('Test the User Routes', () => {
   });
 
   test('It should fail Delete Unauthorize User ', async () => {
-    const savedUser = await saveModel(User, userData);
+    const savedUser = await saveModel(User, testData);
 
     const response = await request.delete(`/api/v1/auth/users/${savedUser.id}`);
 
@@ -56,11 +55,11 @@ describe('Test the User Routes', () => {
   });
 
   test('It should pass PATCH authorize User ', async () => {
-    const savedUser = await saveModel(User, userData);
+    const savedUser = await saveModel(User, testData);
 
     const user = await request.post('/api/v1/auth/login').send({
-      email: userData.email,
-      password: userData.password
+      email: testData.email,
+      password: testData.password
     });
 
     const { token } = user.body.data;
@@ -73,11 +72,11 @@ describe('Test the User Routes', () => {
   });
 
   test('It should pass Delete authorize User ', async () => {
-    const savedUser = await saveModel(User, userData);
+    const savedUser = await saveModel(User, testData);
 
     const user = await request.post('/api/v1/auth/login').send({
-      email: userData.email,
-      password: userData.password
+      email: testData.email,
+      password: testData.password
     });
 
     const { token } = user.body.data;
@@ -88,7 +87,7 @@ describe('Test the User Routes', () => {
   });
 
   test('It should fail Get Unauthorize User ', async () => {
-    const savedUser = await saveModel(User, userData);
+    const savedUser = await saveModel(User, testData);
 
     const response = await request.get(`/api/v1/auth/users/${savedUser.id}`);
 
@@ -96,11 +95,11 @@ describe('Test the User Routes', () => {
   });
 
   test('It should pass Get authorize User ', async () => {
-    const savedUser = await saveModel(User, userData);
+    const savedUser = await saveModel(User, testData);
 
     const user = await request.post('/api/v1/auth/login').send({
-      email: userData.email,
-      password: userData.password
+      email: testData.email,
+      password: testData.password
     });
 
     const { token } = user.body.data;

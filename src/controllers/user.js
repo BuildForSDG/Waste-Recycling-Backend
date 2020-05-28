@@ -28,7 +28,7 @@ const createUser = async (req, res) => {
   res.json({
     status: 'success',
     data: {
-      message: 'user create succesful',
+      message: 'user create succesfully',
       token,
       user
     }
@@ -42,7 +42,7 @@ const userlogIn = async (req, res) => {
 
   const user = await User.findOne({ email });
 
-  if (!user || !await user.matchesPassword(password)) {
+  if (!user || !(await user.matchesPassword(password))) {
     throw new Unauthorize('Incorrect email or password');
   }
 

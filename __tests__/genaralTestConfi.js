@@ -16,14 +16,7 @@ export const mongoseDisconnect = async () => {
   return disconnect;
 };
 
-export const userData = {
-  email: 'team04@buidsdg.com',
-  name: 'waste recycling',
-  password: 'ProblemStatement2',
-  passwordConfirmation: 'ProblemStatement2'
-};
-
-export const orgData = {
+export const testData = {
   email: 'team04@buidsdg.com',
   name: 'waste recycling',
   password: 'ProblemStatement2',

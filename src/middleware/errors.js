@@ -9,7 +9,5 @@ export const serverError = (err, req, res, next) => {
     console.error(err.stack);
   }
 
-  return res
-    .status(err.status || 500)
-    .json({ status: 'error', message: err.message || 'Internal Server Error' });
+  return res.status(err.status || 500).json({ status: 'error', message: err.message || 'Internal Server Error' });
 };

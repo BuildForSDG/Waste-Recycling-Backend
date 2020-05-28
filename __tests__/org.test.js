@@ -45,7 +45,7 @@ describe('Test the Org Routes', () => {
     await failUnauthorize(response);
   });
 
-  test('It should pass PATCH authorize User ', async () => {
+  test('It should pass PATCH authorize Org ', async () => {
     const savedOrg = await saveModel(Org, testData);
 
     const org = await request.post('/api/v1/auth/login-org').send({
@@ -62,7 +62,7 @@ describe('Test the Org Routes', () => {
     await passAuthorizeCRUD(response);
   });
 
-  test('It should fail Delete Unauthorize User ', async () => {
+  test('It should fail Delete Unauthorize Org ', async () => {
     const savedOrg = await saveModel(Org, testData);
 
     const response = await request.patch(`/api/v1/auth/org/${savedOrg.id}`);
@@ -70,7 +70,7 @@ describe('Test the Org Routes', () => {
     await failUnauthorize(response);
   });
 
-  test('It should pass Delete authorize User ', async () => {
+  test('It should pass Delete authorize Org ', async () => {
     const savedOrg = await saveModel(Org, testData);
 
     const org = await request.post('/api/v1/auth/login-org').send({
@@ -86,7 +86,7 @@ describe('Test the Org Routes', () => {
     await passAuthorizeCRUD(response);
   });
 
-  test('It should fail Get Unauthorize User ', async () => {
+  test('It should fail Get Unauthorize Org ', async () => {
     const savedOrg = await saveModel(Org, testData);
 
     const response = await request.get(`/api/v1/auth/org/${savedOrg.id}`);
@@ -94,7 +94,7 @@ describe('Test the Org Routes', () => {
     await failUnauthorize(response);
   });
 
-  test('It should pass Get authorize User ', async () => {
+  test('It should pass Get authorize Org ', async () => {
     const savedOrg = await saveModel(Org, testData);
 
     const org = await request.post('/api/v1/auth/login-org').send({

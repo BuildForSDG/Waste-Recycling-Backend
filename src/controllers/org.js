@@ -81,4 +81,42 @@ const orgProfileUpdate = async (req, res) => {
   });
 };
 
-export { createOrg, orglogIn, orgProfileUpdate };
+const deleteOrg = async (req, res) => {
+  const { id } = req.params;
+
+  const found = await Org.findById(id);
+
+  if (!found) {
+    throw new BadRequest('Invalid id');
+  }
+  await Org.findByIdAndDelete(id);
+
+  res.json({
+    status: 'success',
+    data: {
+      message: 'Organization Deleted succesfull'
+    }
+  });
+};
+
+const viewOrgProfile = async (req, res) => {
+  const { id } = req.params;
+
+  const found = await Org.findById(id);
+
+  if (!found) {
+    throw new BadRequest('Invalid id');
+  }
+
+  res.json({
+    status: 'success',
+    data: {
+      message: 'View Organiation succesfull',
+      org: found
+    }
+  });
+};
+
+export {
+  createOrg, orglogIn, orgProfileUpdate, deleteOrg, viewOrgProfile
+};

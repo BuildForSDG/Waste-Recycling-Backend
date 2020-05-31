@@ -25,3 +25,13 @@ export const authAccount = async (req, res, next) => {
 
   return next();
 };
+
+export const auth = async (req, res, next) => {
+  if (!isLoggedIn(req)) {
+    return next(new Unauthorize('You must logged in'));
+  }
+
+  await decodeToken(req, next);
+
+  return next();
+};

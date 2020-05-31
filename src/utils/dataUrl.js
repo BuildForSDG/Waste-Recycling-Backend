@@ -10,9 +10,12 @@ export const dataUri = (req) => {
 };
 
 export const processImageToUrl = async (req) => {
-  const file = await dataUri(req).content;
+  if (req.file) {
+    const file = await dataUri(req).content;
 
-  const { url } = await uploader.upload(file);
+    const { url } = await uploader.upload(file);
 
-  return url;
+    return url;
+  }
+  return undefined;
 };

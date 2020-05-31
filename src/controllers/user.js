@@ -117,7 +117,6 @@ const viewProfile = async (req, res) => {
   });
 };
 
-
 export {
   createUser, userlogIn as signIn, userProfileUpdate as profileUpdate, deleteUser, viewProfile
 };

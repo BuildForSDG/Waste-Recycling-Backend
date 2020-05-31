@@ -69,13 +69,7 @@ const userProfileUpdate = async (req, res) => {
     throw new BadRequest('Invalid id');
   }
 
-  let url;
-
-  if (req.file) {
-    url = await processImageToUrl(req);
-  }
-
-  const imageUrl = url;
+  const imageUrl = await processImageToUrl(req);
 
   await User.findByIdAndUpdate(id, { ...req.body, imageUrl }, { omitUndefined: true });
 

@@ -3,11 +3,11 @@ import { Schema, model } from 'mongoose';
 
 const userProductSchema = new Schema(
   {
-    UserId: String,
-    productId: String,
     quantity: String,
-    Location: String,
-    imageUrl: String
+    location: String,
+    imageUrl: String,
+    userId: { type: Schema.Types.ObjectId, ref: 'User' },
+    orgProduct: { type: Schema.Types.ObjectId, ref: 'OrgProduct' }
   },
   {
     timestamps: true

@@ -1,4 +1,3 @@
-/* eslint-disable import/prefer-default-export */
 import {
   userProductSchema, validate
 } from '../validation';
@@ -26,11 +25,16 @@ const userPostProduct = async (req, res) => {
 
   const product = await UserProduct.create({
     userId,
-    productId,
+    orgProduct: productId,
     quantity,
     location,
     imageUrl
   });
+
+  const productOrg = await OrgProduct.findById({ _id: productId });
+
+  await productOrg.userProduct.push(product);
+  await productOrg.save();
 
   res.json({
     status: 'success',
@@ -41,7 +45,57 @@ const userPostProduct = async (req, res) => {
   });
 };
 
+const userViewAllProducts = async (req, res) => {
+  const product = await UserProduct.find();
+
+  res.json({
+    status: 'success',
+    data: {
+      message: 'Request send succesfully',
+      product
+    }
+  });
+};
+
+const userViewProduct = async (req, res) => {
+  const { productId } = req.params;
+
+  const product = await UserProduct.findById(productId).populate('orgProduct', '-userProduct');
+
+  res.json({
+    status: 'success',
+    data: {
+      message: 'Request send succesfully',
+      product
+    }
+  });
+};
+
+const userViewProductRejectAccept = async (req, res) => {
+  const product = await UserProduct.find().populate('orgProduct', '-userProduct');
+
+  const { status } = req.params;
+  if (status === 'reject') {
+    res.json({
+      status: 'success',
+      data: {
+        message: 'Request send succesfully',
+        product
+      }
+    });
+  }
+
+  res.json({
+    status: 'success',
+    data: {
+      message: 'Request send succesfully',
+      product
+
+    }
+  });
+};
+
 
 export {
-  userPostProduct
+  userPostProduct, userViewAllProducts, userViewProduct, userViewProductRejectAccept as rejectAccept
 };

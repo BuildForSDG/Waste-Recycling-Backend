@@ -63,13 +63,13 @@ const orgProfileUpdate = async (req, res) => {
 
   const { id } = req.params;
 
-  let url;
+  const found = await Org.findById(id);
 
-  if (req.file) {
-    url = await processImageToUrl(req);
+  if (!found) {
+    throw new BadRequest('Invalid id');
   }
 
-  const imageUrl = url;
+  const imageUrl = await processImageToUrl(req);
 
   await Org.findByIdAndUpdate(id, { ...req.body, imageUrl }, { omitUndefined: true });
 

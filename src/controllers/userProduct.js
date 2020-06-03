@@ -16,7 +16,7 @@ const userPostProduct = async (req, res) => {
 
   const userId = await getId(req);
 
-  const found = await OrgProduct.exists({ id: productId });
+  const found = await OrgProduct.exists({ _id: productId });
 
   if (!found) {
     throw new BadRequest('Invalid id');

@@ -6,7 +6,7 @@ const orgProductSchema = new Schema(
     orgId: String,
     name: String,
     category: String,
-    minimunQuantity: String,
+    minimumQuantity: String,
     maxQuantity: String,
     imageUrl: String
   },

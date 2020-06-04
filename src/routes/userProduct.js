@@ -1,5 +1,7 @@
 import { Router } from 'express';
-import { userPostProduct, userViewAllProducts, userViewProduct } from '../controllers';
+import {
+  userPostProduct, userViewAllProducts, userViewProduct, rejectAccept
+} from '../controllers';
 import {
   catchAsync, auth, cloudinary, multerUploadSingle
 } from '../middleware';
@@ -10,6 +12,6 @@ router.post('/user-product/:productId', auth, cloudinary, multerUploadSingle, ca
 
 router.get('/user-product', catchAsync(userViewAllProducts));
 router.get('/user-product/:productId', catchAsync(userViewProduct));
-router.get('/user-product/status/:status', catchAsync(userViewAllProducts));
+router.get('/user-product/status/:status', catchAsync(rejectAccept));
 
 export default router;

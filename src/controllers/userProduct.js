@@ -1,7 +1,7 @@
 import {
-  userProductSchema, validate
+  userProductSchema, statusParamsSchema, validate
 } from '../validation';
-import { UserProduct, OrgProduct } from '../models';
+import { UserProduct, OrgProduct, ProductStatus } from '../models';
 import { BadRequest } from '../errors';
 import { getId } from '../config';
 import { processImageToUrl } from '../utils';
@@ -46,7 +46,8 @@ const userPostProduct = async (req, res) => {
 };
 
 const userViewAllProducts = async (req, res) => {
-  const product = await UserProduct.find();
+  const userId = await getId(req);
+  const product = await UserProduct.find({ userId });
 
   res.json({
     status: 'success',
@@ -60,7 +61,9 @@ const userViewAllProducts = async (req, res) => {
 const userViewProduct = async (req, res) => {
   const { productId } = req.params;
 
-  const product = await UserProduct.findById(productId).populate('orgProduct', '-userProduct');
+  const userId = await getId(req);
+
+  const product = await UserProduct.find({ userId, _id: productId }).populate('orgProduct', '-userProduct');
 
   res.json({
     status: 'success',
@@ -72,24 +75,27 @@ const userViewProduct = async (req, res) => {
 };
 
 const userViewProductRejectAccept = async (req, res) => {
-  const product = await UserProduct.find().populate('orgProduct', '-userProduct');
+  await validate(statusParamsSchema, req.params);
+  const userId = await getId(req);
 
   const { status } = req.params;
-  if (status === 'reject') {
+
+  if (status === 'rejected') {
+    const rejectedProduct = await ProductStatus.find({ status: 'rejected', userId });
     res.json({
       status: 'success',
       data: {
         message: 'Request send succesfully',
-        product
+        rejectedProduct
       }
     });
   }
-
+  const acceptedProduct = await ProductStatus.find({ status: 'accepted', userId });
   res.json({
     status: 'success',
     data: {
       message: 'Request send succesfully',
-      product
+      acceptedProduct
 
     }
   });

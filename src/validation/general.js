@@ -31,3 +31,5 @@ export const imageUrl = Joi.string().min(2).max(255);
 
 export const bio = addr;
 export const address = addr;
+
+export const status = Joi.string().valid('accepted', 'rejected').required();

@@ -10,8 +10,8 @@ const router = Router();
 
 router.post('/user-product/:productId', auth, cloudinary, multerUploadSingle, catchAsync(userPostProduct));
 
-router.get('/user-product', catchAsync(userViewAllProducts));
-router.get('/user-product/:productId', catchAsync(userViewProduct));
-router.get('/user-product/status/:status', catchAsync(rejectAccept));
+router.get('/user-product', auth, catchAsync(userViewAllProducts));
+router.get('/user-product/:productId', auth, catchAsync(userViewProduct));
+router.get('/user-product/status/:status', auth, catchAsync(rejectAccept));
 
 export default router;

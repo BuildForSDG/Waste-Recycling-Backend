@@ -7,3 +7,5 @@ export * from './joi';
 export * from './userProduct';
 
 export * from './orgProduct';
+
+export * from './productStatus';

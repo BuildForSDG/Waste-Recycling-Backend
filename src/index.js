@@ -4,7 +4,6 @@ import createApp from './app';
 
 (async () => {
   await mongoose.connect(MONGO_URI, MONGO_OPTIONS);
-
   const normalizePort = (val) => {
     const port = parseInt(val, 10);
 

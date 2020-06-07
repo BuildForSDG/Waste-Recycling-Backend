@@ -1,7 +1,7 @@
 import express from 'express';
 import { notFound, serverError, headers } from './middleware';
 import {
-  user, org, userProduct, orgProduct, productStatus
+  user, org, userProduct, orgProduct, productStatus, orgviewproducts
 } from './routes';
 
 const createApp = () => {
@@ -16,6 +16,7 @@ const createApp = () => {
   app.use('/api/v1', userProduct);
   app.use('/api/v1', orgProduct);
   app.use('/api/v1', productStatus);
+  app.use('/api/v1', orgviewproducts);
 
   app.use(notFound);
 

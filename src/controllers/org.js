@@ -94,7 +94,7 @@ const deleteOrg = async (req, res) => {
   res.json({
     status: 'success',
     data: {
-      message: 'Organization Deleted succesfull'
+      message: 'Organization Deleted succesfully'
     }
   });
 };

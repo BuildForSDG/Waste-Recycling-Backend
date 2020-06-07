@@ -3,12 +3,13 @@ import { Schema, model } from 'mongoose';
 
 const orgProductSchema = new Schema(
   {
-    orgId: String,
+    orgId: { type: Schema.Types.ObjectId, ref: 'OrgProduct' },
     name: String,
     category: String,
     minimumQuantity: String,
     maxQuantity: String,
-    imageUrl: String
+    imageUrl: String,
+    userProduct: [{ type: Schema.Types.ObjectId, ref: 'UserProduct' }]
   },
   {
     timestamps: true

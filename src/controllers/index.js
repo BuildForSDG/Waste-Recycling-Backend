@@ -4,3 +4,4 @@ export * from './org';
 export * from './userProduct';
 export * from './orgProduct';
 export * from './productStatus';
+export * from './OrgviewProducts';

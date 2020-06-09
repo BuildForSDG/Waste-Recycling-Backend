@@ -19,8 +19,8 @@
     "lint": "eslint \"src/**/*.js\"",
     "clean": "rimraf build",
     "build-babel": "babel ./src --out-dir build",
-    "build": "npm run clean && npm run build-babel",
-    "start": "npm run build && node ./build/index.js",
+    "build": "yarn clean && yarn build-babel",
+    "start": "yarn build && node ./build/index.js",
     "dev": "nodemon --exec babel-node src/index.js"
   },
   "author": {

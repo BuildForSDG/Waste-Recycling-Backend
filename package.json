@@ -46,7 +46,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
-    "@babel/node": "^7.8.7",
+    "@babel/node": "^7.10.1",
     "@babel/preset-env": "^7.9.5",
     "@shelf/jest-mongodb": "^1.1.5",
     "babel-jest": "^25.4.0",
@@ -55,7 +55,6 @@
     "eslint-plugin-import": "^2.20.2",
     "jest": "^25.4.0",
     "nodemon": "^2.0.3",
-    "parcel-bundler": "^1.12.4",
     "supertest": "^4.0.2"
   },
   "browserslist": [

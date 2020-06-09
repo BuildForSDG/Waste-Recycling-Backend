@@ -17,7 +17,7 @@
     "test:watch": "jest --watch",
     "test:cover": "jest --coverage",
     "lint": "eslint \"src/**/*.js\"",
-    "start": "./node_modules/.bin/babel-node ./src/index.js",
+    "start": "babel-node ./src/index.js",
     "dev": "nodemon --exec babel-node src/index.js"
   },
   "author": {
@@ -55,7 +55,6 @@
     "eslint-plugin-import": "^2.20.2",
     "jest": "^25.4.0",
     "nodemon": "^2.0.3",
-    "parcel-bundler": "^1.12.4",
     "supertest": "^4.0.2"
   },
   "browserslist": [

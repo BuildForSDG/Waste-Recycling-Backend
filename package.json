@@ -17,7 +17,7 @@
     "test:watch": "jest --watch",
     "test:cover": "jest --coverage",
     "lint": "eslint \"src/**/*.js\"",
-    "start": "babel-node ./src/index.js",
+    "start": "./node_modules/.bin/babel-node ./src/index.js",
     "dev": "nodemon --exec babel-node src/index.js"
   },
   "author": {

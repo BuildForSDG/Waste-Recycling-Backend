@@ -35,7 +35,6 @@
   "license": "MIT",
   "dependencies": {
     "@hapi/joi": "^17.1.1",
-    "babel-cli": "^6.26.0",
     "bcryptjs": "^2.4.3",
     "cloudinary": "^1.21.0",
     "datauri": "^3.0.0",
@@ -47,7 +46,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
-    "@babel/node": "^7.8.7",
+    "@babel/node": "^7.10.1",
     "@babel/preset-env": "^7.9.5",
     "@shelf/jest-mongodb": "^1.1.5",
     "babel-jest": "^25.4.0",

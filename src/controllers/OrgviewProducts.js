@@ -19,13 +19,15 @@ const ViewAllProducts = async (req, res) => {
 };
 
 const viewOneProduct = async (req, res) => {
-  const { productId } = req.params;
-  const product = await OrgProduct.find({ _id: productId });
+  const { id } = req.params;
+  const found = await OrgProduct.exists({ _id: id });
 
 
-  if (!product) {
+  if (!found) {
     throw new Unauthorize('No product like this');
   }
+
+  const product = await OrgProduct.findById(id);
 
   res.json({
     status: 'success',
